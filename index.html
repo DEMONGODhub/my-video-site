@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RISE — Self Improvement Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <!-- ============================================================
+    ✅ ADSTERRA — Paste your Adsterra ad script tag below
+  ============================================================ -->
+  <!-- ADSTERRA_HEAD_CODE_HERE -->
+
+  <style>
+    :root {
+      --bg: #212121;
+      --surface: #2a2a2a;
+      --card: #2e2e2e;
+      --border: #3a3a3a;
+      --yellow: #f5c518;
+      --gray: #9e9e9e;
+      --gray-light: #bdbdbd;
+      --white: #eeeeee;
+      --black: #111111;
+      --radius: 6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--black);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--yellow);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 5px;
+      color: var(--yellow);
+      text-decoration: none;
+    }
+    .logo span { color: var(--white); }
+    nav a {
+      color: var(--gray);
+      text-decoration: none;
+      margin-left: 28px;
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--yellow); }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 36px;
+      background: linear-gradient(180deg, var(--black) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      letter-spacing: 8px;
+      line-height: 1;
+      color: var(--yellow);
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: var(--gray);
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* AD SLOTS */
+    .ad-banner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 14px;
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+      min-height: 90px;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      color: var(--yellow);
+      padding: 34px 40px 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* PINNED GRID */
+    .pinned-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+      padding: 0 40px 34px;
+    }
+    .pinned-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .pinned-card:hover { transform: translateY(-3px); border-color: var(--yellow); }
+    .pinned-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .pinned-card .card-info { padding: 12px 14px; }
+    .pinned-card .card-label {
+      font-size: 0.62rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 5px;
+    }
+    .pinned-card .card-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.4;
+    }
+
+    /* VIDEO GRID */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+      padding: 0 40px 40px;
+    }
+    .video-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .video-card:hover { transform: translateY(-3px); border-color: var(--yellow); }
+    .video-card .thumb-wrap {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .video-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.3s;
+    }
+    .video-card:hover img { transform: scale(1.04); }
+    .play-btn {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.5);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .video-card:hover .play-btn { opacity: 1; }
+    .play-btn svg { width: 50px; height: 50px; fill: var(--yellow); }
+    .video-card .card-info { padding: 13px 15px; }
+    .video-card .card-tag {
+      font-size: 0.62rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 5px;
+    }
+    .video-card .card-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .video-card .card-ch {
+      font-size: 0.75rem;
+      color: var(--gray);
+      margin-top: 5px;
+    }
+
+    /* LOADING */
+    .loading-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 14px;
+      padding: 60px 40px;
+      color: var(--gray);
+      font-size: 0.88rem;
+    }
+    .spinner {
+      width: 34px; height: 34px;
+      border: 3px solid var(--border);
+      border-top-color: var(--yellow);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* STATUS BAR */
+    .status-bar {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 10px 40px;
+      font-size: 0.7rem;
+      color: var(--gray);
+      letter-spacing: 1px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      background: var(--yellow);
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.94);
+      z-index: 999;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 90%; max-width: 860px;
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between; align-items: center;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--black);
+    }
+    .modal-header span {
+      font-size: 0.85rem;
+      color: var(--gray-light);
+      max-width: 85%;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .modal-close {
+      background: none; border: none;
+      color: var(--gray);
+      font-size: 1.3rem; cursor: pointer; padding: 0 4px; line-height: 1;
+    }
+    .modal-close:hover { color: var(--yellow); }
+    .modal-iframe-wrap { position: relative; aspect-ratio: 16/9; }
+    .modal-iframe-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 26px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--black);
+      color: var(--gray);
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 16px 20px; }
+      .section-title { padding: 24px 20px 12px; font-size: 1.2rem; }
+      .pinned-grid, .video-grid { padding: 0 16px 24px; gap: 12px; }
+      .status-bar { padding: 10px 16px; flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+  ✅ YOUR CONFIG — Only edit inside this script block
+  ─────────────────────────────────────────────────────────────
+  1. Replace YOUR_API_KEY_HERE with your YouTube API key
+  2. Edit PINNED_VIDEOS to feature your chosen videos
+  3. Edit SEARCH_QUERIES to change what auto-loads daily
+============================================================ -->
+<script>
+
+  const YT_API_KEY = "AIzaSyBdZJ07_6cy5n99DioxjTtsj2pSbFJs0rE";
+
+  const PINNED_VIDEOS = [
+    {
+      url: "https://www.youtube.com/watch?v=8ZIHBBMFlEo",
+      title: "David Goggins — You Are Stopping Yourself",
+      label: "🔥 Must Watch",
+      thumbnail: ""
+    },
+    {
+      url: "https://www.youtube.com/watch?v=_75eHOFSBfA",
+      title: "Elon Musk — Work Ethic & First Principles",
+      label: "💼 Billionaire Mindset",
+      thumbnail: ""
+    },
+    {
+      url: "https://www.youtube.com/watch?v=0wMKMC7oFpI",
+      title: "Andrew Huberman — Build Discipline That Lasts",
+      label: "🧠 Science of Growth",
+      thumbnail: ""
+    }
+  ];
+
+  const SEARCH_QUERIES = [
+    { query: "self improvement motivation 2025",    tag: "Self Improvement"    },
+    { query: "billionaire CEO interview mindset",   tag: "Billionaire Interview"},
+    { query: "celebrity success story interview",   tag: "Celebrity Interview"  },
+    { query: "discipline habits success entrepreneur", tag: "Entrepreneur"     },
+    { query: "how to be successful in life",        tag: "Success"             }
+  ];
+
+  const VIDEOS_PER_QUERY = 4;
+  const CACHE_DURATION   = 24 * 60 * 60 * 1000;
+
+</script>
+<!-- ============================================================ -->
+
+<header>
+  <a class="logo" href="#">RISE<span>.</span></a>
+  <nav>
+    <a href="#pinned">Pinned</a>
+    <a href="#videos">Videos</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>RISE EVERY DAY</h1>
+  <p>Self Improvement · Interviews · Mindset · Success</p>
+</section>
+
+<div class="ad-banner">
+  <!-- ✅ ADSTERRA TOP BANNER — Paste code here -->
+</div>
+
+<div class="section-title" id="pinned">📌 PINNED PICKS</div>
+<div class="pinned-grid" id="pinned-grid"></div>
+
+<div class="section-title" id="videos">⚡ TODAY'S VIDEOS</div>
+<div id="video-area">
+  <div class="loading-wrap">
+    <div class="spinner"></div>
+    <span>Loading videos...</span>
+  </div>
+</div>
+
+<div class="ad-banner">
+  <!-- ✅ ADSTERRA BOTTOM BANNER — Paste code here -->
+</div>
+
+<div class="status-bar">
+  <span><span class="status-dot"></span><span id="status-text">Starting...</span></span>
+  <span id="refresh-info"></span>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span id="modal-title"></span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-iframe-wrap">
+      <iframe id="modal-iframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+  </div>
+</div>
+
+<footer>&copy; 2025 RISE · Self Improvement Hub · Powered by YouTube</footer>
+
+<script>
+  function renderPinned() {
+    document.getElementById('pinned-grid').innerHTML = PINNED_VIDEOS.map(v => {
+      const id = getId(v.url);
+      const thumb = v.thumbnail || `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+      return `<a class="pinned-card" href="#" onclick="openModal('${id}','${esc(v.title)}');return false;">
+        <img src="${thumb}" alt="${esc(v.title)}" loading="lazy"/>
+        <div class="card-info">
+          <div class="card-label">${v.label}</div>
+          <div class="card-title">${esc(v.title)}</div>
+        </div>
+      </a>`;
+    }).join('');
+  }
+
+  async function fetchVideos() {
+    const KC = 'rise_cache', KT = 'rise_time';
+    const now = Date.now();
+    const cached = localStorage.getItem(KC);
+    const cachedAt = parseInt(localStorage.getItem(KT) || '0');
+
+    if (cached && now - cachedAt < CACHE_DURATION) {
+      const hrs = Math.round((CACHE_DURATION - (now - cachedAt)) / 3600000);
+      setStatus(`Videos loaded · Refreshes in ~${hrs}h`);
+      setNext(new Date(cachedAt + CACHE_DURATION));
+      renderVideos(JSON.parse(cached));
+      return;
+    }
+
+    if (!YT_API_KEY || YT_API_KEY === 'YOUR_API_KEY_HERE') {
+      setStatus('API key missing — check the config section in the HTML file');
+      document.getElementById('video-area').innerHTML =
+        `<div class="loading-wrap">Open index.html and replace YOUR_API_KEY_HERE with your real YouTube API key.</div>`;
+      return;
+    }
+
+    setStatus('Fetching fresh videos from YouTube...');
+    const all = [];
+
+    for (const q of SEARCH_QUERIES) {
+      try {
+        const r = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q.query)}&type=video&maxResults=${VIDEOS_PER_QUERY}&key=${YT_API_KEY}&relevanceLanguage=en&safeSearch=moderate`
+        );
+        const d = await r.json();
+        if (d.items) d.items.forEach(i => all.push({
+          id: i.id.videoId,
+          title: i.snippet.title,
+          channel: i.snippet.channelTitle,
+          thumb: i.snippet.thumbnails.high?.url || i.snippet.thumbnails.default?.url,
+          tag: q.tag
+        }));
+      } catch(e) { console.warn('Failed:', q.query); }
+    }
+
+    for (let i = all.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [all[i], all[j]] = [all[j], all[i]];
+    }
+
+    localStorage.setItem(KC, JSON.stringify(all));
+    localStorage.setItem(KT, now.toString());
+    setStatus(`${all.length} videos loaded · Refreshes in 24h`);
+    setNext(new Date(now + CACHE_DURATION));
+    renderVideos(all);
+  }
+
+  function renderVideos(videos) {
+    if (!videos.length) {
+      document.getElementById('video-area').innerHTML =
+        `<div class="loading-wrap">No videos found. Check your API key and search terms.</div>`;
+      return;
+    }
+    const g = document.createElement('div');
+    g.className = 'video-grid';
+    g.innerHTML = videos.map(v => `
+      <div class="video-card" onclick="openModal('${v.id}','${esc(v.title)}')">
+        <div class="thumb-wrap">
+          <img src="${v.thumb}" alt="${esc(v.title)}" loading="lazy"/>
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="card-info">
+          <div class="card-tag">${v.tag}</div>
+          <div class="card-title">${esc(v.title)}</div>
+          <div class="card-ch">${esc(v.channel)}</div>
+        </div>
+      </div>`).join('');
+    const area = document.getElementById('video-area');
+    area.innerHTML = '';
+    area.appendChild(g);
+  }
+
+  function openModal(id, title) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-iframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+    document.getElementById('modal').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modal-iframe').src = '';
+  }
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  function getId(url) {
+    const m = url.match(/[?&]v=([^&#]+)/) || url.match(/youtu\.be\/([^?&#]+)/);
+    return m ? m[1] : '';
+  }
+  function esc(s) {
+    return (s||'').replace(/'/g,"&#39;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  function setStatus(t) { document.getElementById('status-text').textContent = t; }
+  function setNext(d) { document.getElementById('refresh-info').textContent = `Next refresh: ${d.toLocaleString()}`; }
+
+  renderPinned();
+  fetchVideos();
+</script>
+</body>
+</html>
